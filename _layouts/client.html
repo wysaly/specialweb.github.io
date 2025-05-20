@@ -1,0 +1,109 @@
+---
+layout: default
+---
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1><i class="bi bi-building"></i> {{ page.title }}</h1>
+      <p class="text-muted">客户代码：{{ page.client_code }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-outline-primary" onclick="window.location.href='/clients'">
+        <i class="bi bi-arrow-left"></i> 返回客户列表
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">基本信息</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>国家：</strong>{{ page.country }}</p>
+          <p><strong>语言：</strong>{{ page.language }}</p>
+          <p><strong>时区：</strong>{{ page.timezone }}</p>
+          <p><strong>联系方式：</strong>{{ page.contact }}</p>
+          <p><strong>电子邮箱：</strong>{{ page.email }}</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">运单统计</h5>
+        </div>
+        <div class="card-body">
+          {% assign client_shipments = site.data.shipments | where: "client_code", page.client_code %}
+          <p><strong>总运单数：</strong>{{ client_shipments.size }}</p>
+          <p><strong>待发货：</strong>{{ client_shipments | where: "status", "未发货" | size }}</p>
+          <p><strong>运输中：</strong>{{ client_shipments | where: "status", "已发货" | size }}</p>
+          <p><strong>已完成：</strong>{{ client_shipments | where: "status", "已提货" | size }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">公司详情</h5>
+        </div>
+        <div class="card-body">
+          {{ content }}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">相关运单</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>运单号</th>
+                  <th>状态</th>
+                  <th>运输方式</th>
+                  <th>发货日期</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for shipment in client_shipments %}
+                <tr>
+                  <td>{{ shipment.tracking_number }}</td>
+                  <td>
+                    <span class="status-badge status-{{ shipment.status | downcase }}">
+                      {% case shipment.status %}
+                      {% when '未发货' %} 🟡 等待发货
+                      {% when '已发货' %} 🚢 运输中
+                      {% when '已到达' %} ✅ 抵达目的港
+                      {% when '已提货' %} 📦 已提货
+                      {% endcase %}
+                    </span>
+                  </td>
+                  <td>{{ shipment.transport_mode }}</td>
+                  <td>{{ shipment.shipped_date | date: "%Y-%m-%d" }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary"
+                      onclick="showShipmentDetails('{{ shipment.tracking_number }}')">
+                      <i class="bi bi-info-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showShipmentDetails(trackingNumber) {
+    window.location.href = '/shipments/' + trackingNumber;
+  }
+</script>
