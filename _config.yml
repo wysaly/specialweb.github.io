@@ -1,7 +1,7 @@
 title: 外贸发货看板
 description: 外贸运单管理系统
-baseurl: "/abc.github.io"
-url: "https://admin.github.io"
+baseurl: ""
+url: ""
 
 # 构建设置
 markdown: kramdown

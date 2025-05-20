@@ -48,4 +48,58 @@
   created_at: 2024-03-10T08:45:00
   shipped_date: 2024-03-11
   arrival_date: 2024-04-05
-  destination: Dubai Port 
+  destination: Dubai Port
+
+- tracking_number: NTS2304-015
+  client_code: techmax
+  cargo_short_name: SmartWatch-Pro
+  cargo_details: 智能手表专业版，型号SW-2024-Pro
+  package_count: 300
+  transport_mode: Sea
+  estimated_days: 15
+  status: 未发货
+  created_at: 2024-03-20T10:30:00
+  shipped_date: 
+  arrival_date: 2024-04-05
+  destination: Rotterdam Port
+
+- tracking_number: NTS2304-014
+  client_code: NTS-2304
+  cargo_short_name: PCB-Board
+  cargo_details: PCB电路板，型号PCB-2024
+  package_count: 500
+  transport_mode: Sea
+  estimated_days: 25
+  status: 未发货
+  created_at: 2024-03-19T14:20:00
+  shipped_date: 
+  arrival_date: 2024-04-14
+  destination: Jeddah Port
+
+- tracking_number: NTS2304-012
+  client_code: techmax
+  cargo_short_name: IoT-Gateway
+  cargo_details: IoT网关设备，型号IG-2024
+  package_count: 150
+  transport_mode: Sea
+  estimated_days: 20
+  status: 已提货
+  created_at: 2024-03-05T09:15:00
+  shipped_date: 2024-03-06
+  arrival_date: 2024-03-26
+  pickup_date: 2024-03-27
+  destination: Dubai Port
+
+- tracking_number: NTS2304-008
+  client_code: NTS-2304
+  cargo_short_name: Elec-Comp
+  cargo_details: 电子元件套装，型号EC-2024
+  package_count: 800
+  transport_mode: Sea
+  estimated_days: 30
+  status: 已提货
+  created_at: 2024-02-28T11:45:00
+  shipped_date: 2024-02-29
+  arrival_date: 2024-03-30
+  pickup_date: 2024-03-31
+  destination: Dammam Port 
