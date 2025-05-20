@@ -92,9 +92,9 @@ title: 运单列表
           <strong>预计到达：</strong>{{ shipment.arrival_date | date: "%Y年%m月%d日" }}
         </p>
         <div class="mt-3">
-          <button class="btn btn-sm btn-outline-primary" onclick="showDetails('{{ shipment.tracking_number }}')">
+          <a href="/shipments/{{ shipment.tracking_number }}.html" class="btn btn-sm btn-outline-primary">
             <i class="bi bi-info-circle"></i> 详情
-          </button>
+          </a>
           <button class="btn btn-sm btn-outline-success" onclick="updateStatus('{{ shipment.tracking_number }}')">
             <i class="bi bi-arrow-clockwise"></i> 更新状态
           </button>
