@@ -1,0 +1,150 @@
+---
+layout: default
+---
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1><i class="bi bi-box-seam"></i> 运单详情</h1>
+      <p class="text-muted">运单号：{{ page.tracking_number }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-outline-primary" onclick="window.history.back()">
+        <i class="bi bi-arrow-left"></i> 返回
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">基本信息</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>运单号：</strong>{{ page.tracking_number }}</p>
+          <p><strong>客户代码：</strong>{{ page.client_code }}</p>
+          <p><strong>运输方式：</strong>{{ page.transport_mode }}</p>
+          <p><strong>状态：</strong>
+            <span class="status-badge status-{{ page.status | downcase }}">
+              {% case page.status %}
+              {% when '未发货' %} 🟡 等待发货
+              {% when '已发货' %} 🚢 运输中
+              {% when '已到达' %} ✅ 抵达目的港
+              {% when '已提货' %} 📦 已提货
+              {% endcase %}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">时间信息</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>创建时间：</strong>{{ page.created_at | date: "%Y-%m-%d %H:%M" }}</p>
+          <p><strong>发货日期：</strong>{{ page.shipped_date | date: "%Y-%m-%d" }}</p>
+          <p><strong>预计到达：</strong>{{ page.arrival_date | date: "%Y-%m-%d" }}</p>
+          <p><strong>实际提货：</strong>{{ page.pickup_date | date: "%Y-%m-%d" }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">货物信息</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>货物简称：</strong>{{ page.cargo_short_name }}</p>
+          <p><strong>货物明细：</strong>{{ page.cargo_details }}</p>
+          <p><strong>包裹数量：</strong>{{ page.package_count }}</p>
+          <p><strong>预计天数：</strong>{{ page.estimated_days }}天</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">操作记录</h5>
+        </div>
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h6>运单创建</h6>
+                <p class="text-muted">{{ page.created_at | date: "%Y-%m-%d %H:%M" }}</p>
+              </div>
+            </div>
+            {% if page.shipped_date %}
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h6>货物发出</h6>
+                <p class="text-muted">{{ page.shipped_date | date: "%Y-%m-%d" }}</p>
+              </div>
+            </div>
+            {% endif %}
+            {% if page.arrival_date %}
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h6>抵达目的港</h6>
+                <p class="text-muted">{{ page.arrival_date | date: "%Y-%m-%d" }}</p>
+              </div>
+            </div>
+            {% endif %}
+            {% if page.pickup_date %}
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <h6>完成提货</h6>
+                <p class="text-muted">{{ page.pickup_date | date: "%Y-%m-%d" }}</p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    padding: 20px 0;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 20px;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #007bff;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #007bff;
+  }
+
+  .timeline-item:before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 15px;
+    height: calc(100% + 5px);
+    width: 2px;
+    background: #e9ecef;
+  }
+
+  .timeline-item:last-child:before {
+    display: none;
+  }
+</style>
