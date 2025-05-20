@@ -66,13 +66,16 @@ layout: default
                   <th>状态</th>
                   <th>运输方式</th>
                   <th>发货日期</th>
-                  <th>操作</th>
                 </tr>
               </thead>
               <tbody>
                 {% for shipment in client_shipments %}
                 <tr>
-                  <td>{{ shipment.tracking_number }}</td>
+                  <td>
+                    <a href="./shipments/{{ shipment.tracking_number }}.html" class="text-decoration-none">
+                      {{ shipment.tracking_number }}
+                    </a>
+                  </td>
                   <td>
                     <span class="status-badge status-{{ shipment.status | downcase }}">
                       {% case shipment.status %}
@@ -85,12 +88,6 @@ layout: default
                   </td>
                   <td>{{ shipment.transport_mode }}</td>
                   <td>{{ shipment.shipped_date | date: "%Y-%m-%d" }}</td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary"
-                      onclick="window.location.href='{{ site.baseurl }}/shipments/{{ shipment.tracking_number }}.html'">
-                      <i class="bi bi-info-circle"></i>
-                    </button>
-                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -102,8 +99,37 @@ layout: default
   </div>
 </div>
 
+<style>
+  .table a {
+    color: #0d6efd;
+    transition: all 0.3s ease;
+  }
+
+  .table a:hover {
+    color: #0a58ca;
+    text-decoration: underline !important;
+  }
+
+  .table tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+  }
+</style>
+
 <script>
-  function showShipmentDetails(trackingNumber) {
-    window.location.href = '/shipments/' + trackingNumber;
+  // 检查URL中是否有运单号参数
+  const urlParams = new URLSearchParams(window.location.search);
+  const trackingNumber = urlParams.get('tracking');
+
+  if (trackingNumber) {
+    // 找到对应的行并高亮显示
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const rowTracking = row.querySelector('td:first-child a').textContent.trim();
+      if (rowTracking === trackingNumber) {
+        row.style.backgroundColor = '#e7f1ff';
+        row.style.border = '2px solid #0d6efd';
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   }
 </script>
