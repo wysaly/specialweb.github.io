@@ -8,7 +8,7 @@ layout: default
       <p class="text-muted">客户代码：{{ page.client_code }}</p>
     </div>
     <div class="col-md-4 text-end">
-      <button class="btn btn-outline-primary" onclick="window.location.href='/clients'">
+      <button class="btn btn-outline-primary" onclick="window.location.href='{{ site.baseurl }}/clients.html'">
         <i class="bi bi-arrow-left"></i> 返回客户列表
       </button>
     </div>
@@ -87,7 +87,7 @@ layout: default
                   <td>{{ shipment.shipped_date | date: "%Y-%m-%d" }}</td>
                   <td>
                     <button class="btn btn-sm btn-outline-primary"
-                      onclick="showShipmentDetails('{{ shipment.tracking_number }}')">
+                      onclick="window.location.href='{{ site.baseurl }}/shipments/{{ shipment.tracking_number }}.html'">
                       <i class="bi bi-info-circle"></i>
                     </button>
                   </td>
