@@ -1,0 +1,19 @@
+title: 外贸发货看板
+description: 外贸运单管理系统
+baseurl: ""
+url: ""
+
+# 构建设置
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .github 

@@ -1,0 +1,74 @@
+---
+layout: default
+title: 运单列表
+---
+
+<div class="row mb-4">
+  <div class="col">
+    <h1>运单列表</h1>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-outline-primary active" data-filter="all">全部</button>
+      <button type="button" class="btn btn-outline-warning" data-filter="未发货">未发货</button>
+      <button type="button" class="btn btn-outline-info" data-filter="已发货">已发货</button>
+      <button type="button" class="btn btn-outline-success" data-filter="已到达">已到达</button>
+      <button type="button" class="btn btn-outline-secondary" data-filter="已提货">已提货</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  {% for shipment in site.data.shipments %}
+  {% assign client = site.data.clients | where: "code", shipment.client_code | first %}
+  <div class="col-md-6 mb-4 shipment-card" data-status="{{ shipment.status }}">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ shipment.tracking_number }}</h5>
+        <div class="mb-2">
+          <span class="status-badge status-{{ shipment.status | downcase }}">
+            {% case shipment.status %}
+            {% when '未发货' %} 🟡 等待发货
+            {% when '已发货' %} 🚢 运输中
+            {% when '已到达' %} ✅ 抵达目的港
+            {% when '已提货' %} 📦 已提货
+            {% endcase %}
+          </span>
+        </div>
+        <p class="card-text">
+          <strong>客户：</strong>{{ client.name }} ({{ client.code }})<br>
+          <strong>货物：</strong>{{ shipment.cargo_short_name }} - {{ shipment.cargo_details }}<br>
+          <strong>包裹数：</strong>{{ shipment.package_count }}<br>
+          <strong>运输方式：</strong>{{ shipment.transport_mode }}<br>
+          <strong>预计天数：</strong>{{ shipment.estimated_days }}天<br>
+          <strong>发货日期：</strong>{{ shipment.shipped_date | date: "%Y年%m月%d日" }}<br>
+          <strong>预计到达：</strong>{{ shipment.arrival_date | date: "%Y年%m月%d日" }}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.querySelectorAll('.btn-group .btn').forEach(button => {
+    button.addEventListener('click', function () {
+      // 更新按钮状态
+      document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+
+      // 过滤运单
+      const filter = this.dataset.filter;
+      document.querySelectorAll('.shipment-card').forEach(card => {
+        if (filter === 'all' || card.dataset.status === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
