@@ -4,8 +4,51 @@ title: 运单列表
 ---
 
 <div class="row mb-4">
-  <div class="col">
-    <h1>运单列表</h1>
+  <div class="col-md-8">
+    <h1><i class="bi bi-box-seam"></i> 运单列表</h1>
+  </div>
+  <div class="col-md-4">
+    <div class="input-group">
+      <input type="text" class="form-control" id="searchInput" placeholder="搜索运单号或客户...">
+      <button class="btn btn-outline-secondary" type="button" id="searchButton">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card stats-card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">总运单数</h5>
+        <h2 class="card-text">{{ site.data.shipments.size }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">待发货</h5>
+        <h2 class="card-text">{{ site.data.shipments | where: "status", "未发货" | size }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">运输中</h5>
+        <h2 class="card-text">{{ site.data.shipments | where: "status", "已发货" | size }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stats-card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">已完成</h5>
+        <h2 class="card-text">{{ site.data.shipments | where: "status", "已提货" | size }}</h2>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -24,11 +67,12 @@ title: 运单列表
 <div class="row">
   {% for shipment in site.data.shipments %}
   {% assign client = site.data.clients | where: "code", shipment.client_code | first %}
-  <div class="col-md-6 mb-4 shipment-card" data-status="{{ shipment.status }}">
+  <div class="col-md-6 mb-4 shipment-card" data-status="{{ shipment.status }}"
+    data-tracking="{{ shipment.tracking_number }}" data-client="{{ client.name }}">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ shipment.tracking_number }}</h5>
-        <div class="mb-2">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="card-title">{{ shipment.tracking_number }}</h5>
           <span class="status-badge status-{{ shipment.status | downcase }}">
             {% case shipment.status %}
             {% when '未发货' %} 🟡 等待发货
@@ -47,6 +91,14 @@ title: 运单列表
           <strong>发货日期：</strong>{{ shipment.shipped_date | date: "%Y年%m月%d日" }}<br>
           <strong>预计到达：</strong>{{ shipment.arrival_date | date: "%Y年%m月%d日" }}
         </p>
+        <div class="mt-3">
+          <button class="btn btn-sm btn-outline-primary" onclick="showDetails('{{ shipment.tracking_number }}')">
+            <i class="bi bi-info-circle"></i> 详情
+          </button>
+          <button class="btn btn-sm btn-outline-success" onclick="updateStatus('{{ shipment.tracking_number }}')">
+            <i class="bi bi-arrow-clockwise"></i> 更新状态
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -54,13 +106,12 @@ title: 运单列表
 </div>
 
 <script>
+  // 状态筛选功能
   document.querySelectorAll('.btn-group .btn').forEach(button => {
     button.addEventListener('click', function () {
-      // 更新按钮状态
       document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
       this.classList.add('active');
 
-      // 过滤运单
       const filter = this.dataset.filter;
       document.querySelectorAll('.shipment-card').forEach(card => {
         if (filter === 'all' || card.dataset.status === filter) {
@@ -71,4 +122,30 @@ title: 运单列表
       });
     });
   });
+
+  // 搜索功能
+  document.getElementById('searchInput').addEventListener('input', function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    document.querySelectorAll('.shipment-card').forEach(card => {
+      const tracking = card.dataset.tracking.toLowerCase();
+      const client = card.dataset.client.toLowerCase();
+      if (tracking.includes(searchTerm) || client.includes(searchTerm)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+
+  // 详情查看功能
+  function showDetails(trackingNumber) {
+    alert('查看运单详情：' + trackingNumber);
+    // 这里可以添加查看详情的具体实现
+  }
+
+  // 状态更新功能
+  function updateStatus(trackingNumber) {
+    alert('更新运单状态：' + trackingNumber);
+    // 这里可以添加更新状态的具体实现
+  }
 </script>
