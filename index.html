@@ -83,7 +83,8 @@ title: 运单列表
           </span>
         </div>
         <p class="card-text">
-          <strong>客户：</strong>{{ client.name }} ({{ client.code }})<br>
+          <strong>客户：</strong><a href="/_clients/{{ client.code }}.html" class="text-decoration-none">{{ client.name
+            }}</a> ({{ client.code }})<br>
           <strong>货物：</strong>{{ shipment.cargo_short_name }} - {{ shipment.cargo_details }}<br>
           <strong>包裹数：</strong>{{ shipment.package_count }}<br>
           <strong>运输方式：</strong>{{ shipment.transport_mode }}<br>
