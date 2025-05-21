@@ -1,7 +1,7 @@
 title: 外贸发货看板
 description: 外贸运单管理系统
-baseurl: ""
-url: ""
+baseurl: "/specialweb.github.io"
+url: "https://specialweb.github.io"
 
 # 语言设置
 languages: ["zh", "en"]
