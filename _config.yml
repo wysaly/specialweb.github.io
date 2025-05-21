@@ -3,11 +3,16 @@ description: 外贸运单管理系统
 baseurl: ""
 url: ""
 
+# 语言设置
+languages: ["zh", "en"]
+default_language: "zh"
+
 # 构建设置
 markdown: kramdown
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-multiple-languages-plugin
 
 # 排除文件
 exclude:
