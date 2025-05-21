@@ -6,6 +6,7 @@ url: ""
 # 语言设置
 languages: ["zh", "en"]
 default_language: "zh"
+exclude_from_localizations: ["assets", "images", "js", "css"]
 
 # 构建设置
 markdown: kramdown
