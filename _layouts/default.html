@@ -67,14 +67,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="./">运单列表</a>
+            <a class="nav-link {% if page.url == '/' or page.url == '/zh/' or page.url == '/en/' %}active{% endif %}" 
+               href="{{ site.baseurl }}/{{ page.lang }}/">{{ site.data.translations[page.lang].title }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./clients.html">客户管理</a>
+            <a class="nav-link {% if page.url contains '/clients' %}active{% endif %}" 
+               href="{{ site.baseurl }}/{{ page.lang }}/clients/">{{ site.data.translations[page.lang].clients }}</a>
           </li>
         </ul>
         <form class="d-flex search-box">
-          <input class="form-control me-2" type="search" placeholder="搜索运单号..." id="searchInput">
+          <input class="form-control me-2" type="search" placeholder="{{ site.data.translations[page.lang].search_placeholder }}" id="searchInput">
           <button class="btn btn-outline-light" type="submit">
             <i class="bi bi-search"></i>
           </button>
@@ -89,7 +91,7 @@
 
   <footer class="bg-dark text-light mt-5 py-3">
     <div class="container text-center">
-      <p class="mb-0">© {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+      <p class="mb-0">© {{ site.time | date: '%Y' }} {{ site.title }}. {{ site.data.translations[page.lang].all_rights_reserved }}</p>
     </div>
   </footer>
 

@@ -22,4 +22,14 @@ exclude:
   - node_modules
   - vendor
   - .git
-  - .github 
+  - .github
+  - .jekyll-cache
+
+# 包含文件
+include:
+  - _layouts
+  - _data
+  - assets
+  - images
+  - js
+  - css 

@@ -15,6 +15,9 @@ en:
   estimated_days: "Estimated Days"
   shipped_date: "Shipped Date"
   arrival_date: "Estimated Arrival"
+  clients: "Clients"
+  search_placeholder: "Search tracking number..."
+  all_rights_reserved: "All rights reserved."
   status:
     pending: "🟡 Pending"
     in_transit: "🚢 In Transit"
@@ -38,6 +41,9 @@ zh:
   estimated_days: "预计天数"
   shipped_date: "发货日期"
   arrival_date: "预计到达"
+  clients: "客户管理"
+  search_placeholder: "搜索运单号..."
+  all_rights_reserved: "版权所有"
   status:
     pending: "🟡 等待发货"
     in_transit: "🚢 运输中"

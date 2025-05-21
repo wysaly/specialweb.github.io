@@ -1,18 +1,17 @@
 ---
 layout: default
-title: 客户管理
+title: {{ site.data.translations[page.lang].clients }}
+lang: {{ page.lang | default: site.default_language }}
 ---
 
 <div class="row mb-4">
   <div class="col-md-8">
-    <h1><i class="bi bi-people"></i> 管理客户</h1>
+    <h1><i class="bi bi-people"></i> {{ site.data.translations[page.lang].clients }}</h1>
   </div>
-  <div class="col-md-4">
-    <div class="input-group">
-      <input type="text" class="form-control" id="searchInput" placeholder="搜索客户...">
-      <button class="btn btn-outline-secondary" type="button" id="searchButton">
-        <i class="bi bi-search"></i>
-      </button>
+  <div class="col-md-4 text-end">
+    <div class="btn-group" role="group">
+      <a href="{{ site.baseurl }}/zh/clients/" class="btn btn-outline-primary {% if page.lang == 'zh' %}active{% endif %}">中文</a>
+      <a href="{{ site.baseurl }}/en/clients/" class="btn btn-outline-primary {% if page.lang == 'en' %}active{% endif %}">English</a>
     </div>
   </div>
 </div>
@@ -65,41 +64,20 @@ title: 客户管理
 
 <div class="row">
   {% for client in site.data.clients %}
-  <div class="col-md-6 mb-4 client-card" data-name="{{ client.name }}" data-code="{{ client.code }}"
-    data-status="{{ client.status | default: 'active' }}">
+  <div class="col-md-4 mb-4">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <h5 class="card-title">{{ client.name }}</h5>
-          <div>
-            <span class="badge bg-primary">{{ client.code }}</span>
-            <span class="badge bg-{{ client.status | default: 'success' }}">
-              {% case client.status %}
-              {% when 'active' %}活跃
-              {% when 'new' %}新增
-              {% when 'pending' %}待处理
-              {% else %}活跃
-              {% endcase %}
-            </span>
-          </div>
-        </div>
+        <h5 class="card-title">{{ client.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ client.code }}</h6>
         <p class="card-text">
-          <strong>国家：</strong>{{ client.country }}<br>
-          <strong>语言：</strong>{{ client.language }}<br>
-          <strong>时区：</strong>UTC{{ client.timezone_offset }}<br>
-          <strong>联系方式：</strong>{{ client.contact }}
+          <strong>{{ site.data.translations[page.lang].customer }}：</strong>{{ client.name }}<br>
+          <strong>Email：</strong>{{ client.email }}<br>
+          <strong>Phone：</strong>{{ client.phone }}<br>
+          <strong>Address：</strong>{{ client.address }}
         </p>
-        <div class="mt-3">
-          <a href="{{ site.baseurl }}/clients/{{ client.code }}.html" class="btn btn-sm btn-outline-primary">
-            <i class="bi bi-info-circle"></i> 详情
-          </a>
-          <button class="btn btn-sm btn-outline-success" onclick="editClient('{{ client.code }}')">
-            <i class="bi bi-pencil"></i> 编辑
-          </button>
-          <button class="btn btn-sm btn-outline-danger" onclick="deleteClient('{{ client.code }}')">
-            <i class="bi bi-trash"></i> 删除
-          </button>
-        </div>
+        <a href="{{ site.baseurl }}/{{ page.lang }}/clients/{{ client.code }}/" class="btn btn-primary">
+          {{ site.data.translations[page.lang].details }}
+        </a>
       </div>
     </div>
   </div>
